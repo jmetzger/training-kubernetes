@@ -3,7 +3,7 @@
 ## Agenda 
 
   1. Grundlagen 
-
+     * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
   1. Installation
      * [Überblick](overview-distros.md)
   1. Verzeichnisse und Dateitypen 
