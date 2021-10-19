@@ -14,6 +14,7 @@
      * [Create a cluster with microk8s](microk8s/cluster.md)
   1. kubectl
      * [alle Ressourcen (Möglichkeiten) der Api anzeigen](kubectl/api-resources.md)
+     * [pod starten mit beispiel](kubectl/run-with-example.md)
      * [alle pods anzeigen](kubectl/get-pods.md)
      * [auf welcher Node läuft ein pod](kubectl/get-pods-o-wide.md)
 
