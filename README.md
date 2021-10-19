@@ -13,7 +13,9 @@
      * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
      * [Create a cluster with microk8s](microk8s/cluster.md)
   1. kubectl
-     * [alle Ressoucen der Api anzeigen](kubectl/apiresources.md)
+     * [alle Ressourcen (Möglichkeiten) der Api anzeigen](kubectl/api-resources.md)
+     * [alle pods anzeigen](kubectl/get-pods.md)
+     * [auf welcher Node läuft ein pod](kubectl/get-pods-o-wide.md)
 
 
 ## Ziel für das Training 
