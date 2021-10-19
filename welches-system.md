@@ -1,5 +1,40 @@
 # Überblick der Systeme 
 
+## General 
+
+```
+kubernetes itself has not convenient way of doing specific stuff like 
+creating the kubernetes cluster.
+
+So there are other tools/distri around helping you with that.
+
+```
+
+## minikube
+
+
+## microk8s 
+
+  * Created by Canonical (Ubuntu)
+  * Runs on Linux
+  * Runs only as snap
+  * In the meantime it is also available for Windows/Mac
+
+## Kubeadm
+
+### General 
+
+  * The official CNCF tool for provisioning Kubernetes clusters
+    (variety of shapes and forms (e.g. single-node, multi-node, HA, self-hosted))
+  * Most manual way to create and manage a cluster 
+
+## k3s
+
+
+
+## kind 
+
+
 ```
 
 Minikube
@@ -35,15 +70,8 @@ Kubernetes versions are tightly coupled with the Docker version (i.e. Docker sta
 
 Not as easy to destroy and start a new K8s cluster. AFAIK, you would have to disable Kubernetes and re-enable it through the Docker desktop app preferences.
 
-K3d
-A new project that aims to bring K3s-in-Docker (similar to kind).
-
-They're still working through some issues, like exposing the right docker ports ...etc.
 
 Kubeadm
-The official CNCF tool for provisioning Kubernetes clusters in a variety of shapes and forms (e.g. single-node, multi-node, HA, self-hosted)
-
-Although this is the most manual way to create and manage a cluster of all the offerings listed here.
 
 ... And there are plenty more that I do not remember off the top of my head.
 
@@ -57,4 +85,4 @@ Are you trying to learn about Kubernetes from a cluster administrator's perspect
 
 I hope you find this information helpful.
 ```
-Let me know if you have any questions.
+
