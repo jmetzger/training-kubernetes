@@ -11,6 +11,7 @@
      * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
      * [Patch to next major release - cluster](microk8s/patch-next-major.md)
      * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
+     * [Create a cluster with microk8s](microk8s/cluster.md)
   1. kubectl
      * [alle Ressoucen der Api anzeigen](kubectl/apiresources.md)
 
