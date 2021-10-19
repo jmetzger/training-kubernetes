@@ -18,6 +18,9 @@
      * [alle pods anzeigen](kubectl/get-pods.md)
      * [auf welcher Node läuft ein pod](kubectl/get-pods-o-wide.md)
 
+  1. Kubernetes 
+     * [Deployments](kubernetes/deployments.md)
+
 
 ## Ziel für das Training 
 
