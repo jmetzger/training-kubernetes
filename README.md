@@ -9,7 +9,8 @@
      * [Überblick](overview-distros.md)
   1. microk8s 
      * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
-     * [Patch to next major release - cluster](microk8s/pach-next-major.md)
+     * [Patch to next major release - cluster](microk8s/patch-next-major.md)
+     * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/remote.md)
 
 
 ## Ziel für das Training 
