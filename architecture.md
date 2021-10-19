@@ -2,12 +2,15 @@
 
 ## Schaubild 
 
-
-
 ## Grundbegriffe 
 
 ## Master (Control Plane)
   * Der Master koordiniert den Cluster
+  * Der Master koordiniert alle Aktivitäten in Ihrem Cluster
+    * Planen von Anwendungen
+    * Verwalten des gewünschten Status der Anwendungen
+    * Skalieren von Anwendungen
+    * Rollout neuer Updates.
 
 ### Node 
 
