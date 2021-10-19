@@ -6,9 +6,12 @@
 
 ## Grundbegriffe 
 
+## Master (Control Plane)
+  * Der Master koordiniert den Cluster
+
 ### Node 
 
-  * Ein Knoten (Node in Englisch) ist eine Arbeitsmaschine in Kubernetes
+  * Nodes (Knoten) sind die Arbeiter (Maschinen), die Anwendungen ausführen
   * Ref: https://kubernetes.io/de/docs/concepts/architecture/nodes/
 
 ### Pod/Pods 
@@ -19,10 +22,6 @@
     * Befinden sich immer auf dem gleich virtuellen Server 
     
 ## Control Plane Node (former: master) - components 
-
-### General 
-
-  * For best performance we should only have the Kubernetes core-components on master
 
 ### Components 
 
