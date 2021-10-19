@@ -7,14 +7,9 @@
      * [Aufbau](architecture.md)
   1. Installation
      * [Überblick](overview-distros.md)
-  1. Verzeichnisse und Dateitypen 
-     * [Verzeichnisaufbau](verzeichnisaufbau.md)
-     * [Dateitypen](dateitypen.md) 
-
-## Wartung (Patchen)
-
-
-
+  1. microk8s 
+     * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
+     * [Patch to next major release - cluster](microk8s/pach-next-major.md)
 
 
 ## Ziel für das Training 
@@ -23,15 +18,10 @@
 Kubernetes Schulung:
 
 Grundlagen technischer Aufbau
-
 Auswahl der Kubernetes Plattform (microk8s als Beispiel)
-
 Installation
-
 Cluster Aufbau
-
 Wartung (Patchen)
-
 Netzwerk
 
 Autodeployment
