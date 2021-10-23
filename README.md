@@ -21,6 +21,9 @@
   1. Kubernetes 
      * [Deployments](kubernetes/deployments.md)
 
+  1. Examples 
+     * [Ingress Nginx](examples/ingress-nginx.md) 
+
 
 ## Ziel für das Training 
 
