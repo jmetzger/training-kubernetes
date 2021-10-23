@@ -22,7 +22,7 @@
      * [Deployments](kubernetes/deployments.md)
 
   1. Examples 
-     * [Ingress Nginx](examples/ingress-nginx.md) 
+     * [Ingress Nginx](examples/04-ingress-nginx.md) 
 
 
 ## Ziel für das Training 
