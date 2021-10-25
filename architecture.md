@@ -62,4 +62,6 @@
 
   * On the nodes we will rollout the applications
   
-  
+## Referenzen 
+
+  * https://www.redhat.com/de/topics/containers/kubernetes-architecture
