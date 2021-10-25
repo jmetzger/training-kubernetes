@@ -4,9 +4,12 @@
 
 ![Kubernetes Architecture - src: syseleven](https://www.syseleven.de/wp-content/uploads/2020/11/syseleven-webiste-loesungen-kubernetes-modell-800x400-web.jpg)
 
-## Grundbegriffe 
+## Komponenten / Grundbegriffe
 
-## Master (Control Plane)
+### Master (Control Plane)
+
+#### Aufgaben 
+
   * Der Master koordiniert den Cluster
   * Der Master koordiniert alle Aktivitäten in Ihrem Cluster
     * Planen von Anwendungen
@@ -14,7 +17,20 @@
     * Skalieren von Anwendungen
     * Rollout neuer Updates.
 
-### Node 
+#### Komponenten des Masters 
+
+##### etcd
+
+  * Verwalten der Konfiguration des Clusters (key/value - pairs) 
+  
+##### kube-controller-manager  
+  
+  * Zuständig für die Überwachung der Stati im Cluster mit Hilfe von endlos loops. 
+  * kommunziert mit dem Cluster über die kubernetes-api 
+
+
+
+### Nodes  
 
   * Nodes (Knoten) sind die Arbeiter (Maschinen), die Anwendungen ausführen
   * Ref: https://kubernetes.io/de/docs/concepts/architecture/nodes/
