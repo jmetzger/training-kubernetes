@@ -2,6 +2,8 @@
 
 ```
 sudo snap install microk8s --classic
+# Important enable dns // otherwice not dns lookup is possible 
+microk8s enable dns 
 microk8s status
 
 # Execute kubectl commands like so 
