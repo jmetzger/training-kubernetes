@@ -2,6 +2,8 @@
 
 ## Schaubild 
 
+[[https://www.syseleven.de/wp-content/uploads/2020/11/syseleven-webiste-loesungen-kubernetes-modell-800x400-web.jpg|alt=syseleven]]
+
 ## Grundbegriffe 
 
 ## Master (Control Plane)
