@@ -7,6 +7,7 @@
      * [Aufbau](architecture.md)
   1. Installation
      * [Überblick](overview-distros.md)
+     * [Linux Client aufsetzen](linux-client-ubuntu-kubectl.md)
   1. microk8s 
      * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
      * [Patch to next major release - cluster](microk8s/patch-next-major.md)
