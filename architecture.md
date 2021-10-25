@@ -61,6 +61,22 @@
 ### General 
 
   * On the nodes we will rollout the applications
+
+### kubelet
+
+```
+Node Agent that runs on every node (worker) 
+Er stellt sicher, dass Container in einem Pod ausgeführt werden.
+```
+
+### Kube-proxy 
+
+```
+O Läuft auf jedem Node 
+O = Netzwerk-Proxy für die Kubernetes-Netzwerk-Services. O Kube-proxy verwaltet die Netzwerkkommunikation innerhalb oder außerhalb Ihres Clusters.
+```
+
+
   
 ## Referenzen 
 
