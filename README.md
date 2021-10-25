@@ -25,19 +25,4 @@
      * [Ingress Nginx](examples/04-ingress-nginx.md) 
 
 
-## Ziel für das Training 
 
-```
-Kubernetes Schulung:
-
-Grundlagen technischer Aufbau
-Auswahl der Kubernetes Plattform (microk8s als Beispiel)
-Installation
-Cluster Aufbau
-Wartung (Patchen)
-Netzwerk
-
-Autodeployment
-
-Continiuous integration
-```
