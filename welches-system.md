@@ -10,8 +10,13 @@ So there are other tools/distri around helping you with that.
 
 ```
 
-## minikube
+## Kubeadm
 
+### General 
+
+  * The official CNCF (https://www.cncf.io/) tool for provisioning Kubernetes clusters
+    (variety of shapes and forms (e.g. single-node, multi-node, HA, self-hosted))
+  * Most manual way to create and manage a cluster 
 
 ## microk8s 
 
@@ -19,14 +24,15 @@ So there are other tools/distri around helping you with that.
   * Runs on Linux
   * Runs only as snap
   * In the meantime it is also available for Windows/Mac
+  * HA-Cluster 
 
-## Kubeadm
+### Advantage 
 
-### General 
+  * Easy to create HA-Cluster 
+  * Easy to manage 
 
-  * The official CNCF tool for provisioning Kubernetes clusters
-    (variety of shapes and forms (e.g. single-node, multi-node, HA, self-hosted))
-  * Most manual way to create and manage a cluster 
+## minikube 
+
 
 ## k3s
 
