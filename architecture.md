@@ -28,8 +28,20 @@
   * Zuständig für die Überwachung der Stati im Cluster mit Hilfe von endlos loops. 
   * kommunziert mit dem Cluster über die kubernetes-api 
 
+##### kube-api-server 
 
+  * provides api-frontend for administration (no gui)
+  * Exposes an HTTP API (users, parts of the cluster and external components communicate with it)
+  * REST API
+ 
+##### kube-scheduler 
 
+  * assigns Pods to Nodes. 
+  * scheduler determines which Nodes are valid placements for each Pod in the scheduling queue 
+    ( according to constraints and available resources )
+  * The scheduler then ranks each valid Node and binds the Pod to a suitable Node. 
+  * Reference implementation (other schedulers can be used)
+ 
 ### Nodes  
 
   * Nodes (Knoten) sind die Arbeiter (Maschinen), die Anwendungen ausführen
@@ -43,22 +55,6 @@
     * Befinden sich immer auf dem gleich virtuellen Server 
     
 ## Control Plane Node (former: master) - components 
-
-### Components 
-
-#### etcd 
-
-  * key/pair value store, were kubernetes store its setting
-
-#### kubernetes api server 
-
-  * provides api-frontend for administration (no gui)
-  * Exposes an HTTP API (users, parts of the cluster and external components communicate with it)
-  * REST API
-  
-#### Kubernetes scheduler 
-
-  * Monitors newly created pods, which are not yet tiied to a node
 
 ## Node (Minion) - components 
 
