@@ -11,4 +11,10 @@ sudo snap install kubectl --classic
 # show other versions 
 snap info kubectl
 
+kubectl version --client
+
+# vi ~/.bashrc 
+echo "alias k=kubectl" >> ~./bashrc
+source ~/.bashrc 
+
 ```
