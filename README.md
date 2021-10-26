@@ -23,6 +23,9 @@
   1. Kubernetes 
      * [Deployments](kubernetes/deployments.md)
 
+  1. Gitlab CI/CD 
+     * [Predefined Variables](gitlab-ci-cd/predefined_variables.md)
+
   1. Examples 
      * [Ingress Nginx](examples/04-ingress-nginx.md) 
 
