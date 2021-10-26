@@ -20,6 +20,7 @@
      * [alle pods anzeigen](kubectl/get-pods.md)
      * [auf welcher Node läuft ein pod](kubectl/get-pods-o-wide.md)
      * [pods löschen](kubectl/delete-pod.md)
+     * [Mit pod verbinden - terminal](kubectl/exec-md)
 
   1. Kubernetes 
      * [Deployments](kubernetes/deployments.md)
