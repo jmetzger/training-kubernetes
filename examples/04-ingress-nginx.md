@@ -121,7 +121,7 @@ kubectl explain --api-version=networking.k8s.io/v1 ingress.spec.rules.http.paths
 ## Solution
 
 ```
-# ingress.yml needs to be modified like so.
+# in kubernetes 1.22.2 - ingress.yml needs to be modified like so.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
