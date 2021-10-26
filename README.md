@@ -26,6 +26,9 @@
   1. Gitlab CI/CD 
      * [Predefined Variables](gitlab-ci-cd/predefined_variables.md)
 
+  1. Tipps & Tricks 
+     * [kubectl-Autovervollständigung](autocomplete.md) 
+
   1. Examples 
      * [Kuard pod](examples/01-kuard-pod.md)
      * [Pod nginx port exposed](examples/02-pod-nginx-exposed.md)
