@@ -28,6 +28,9 @@
   1. Gitlab CI/CD 
      * [Predefined Variables](gitlab-ci-cd/predefined_variables.md)
 
+  1. Ingress 
+     * [Nginx Ingress Controller](ingress/nginx-ingress-controller.md) 
+  
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](autocomplete.md) 
 
