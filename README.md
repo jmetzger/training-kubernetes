@@ -13,12 +13,14 @@
      * [Patch to next major release - cluster](microk8s/patch-next-major.md)
      * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
      * [Create a cluster with microk8s](microk8s/cluster.md)
+     * [Arbeiten mit der Registry](microk8s/registry.md)
   1. kubectl
      * [alle Ressourcen (Möglichkeiten) der Api anzeigen](kubectl/api-resources.md)
      * [pod starten mit beispiel](kubectl/run-with-example.md)
      * [alle pods anzeigen](kubectl/get-pods.md)
      * [auf welcher Node läuft ein pod](kubectl/get-pods-o-wide.md)
      * [pods löschen](kubectl/delete-pod.md)
+     * [Mit pod verbinden - terminal](kubectl/exec.md)
 
   1. Kubernetes 
      * [Deployments](kubernetes/deployments.md)
@@ -26,9 +28,16 @@
   1. Gitlab CI/CD 
      * [Predefined Variables](gitlab-ci-cd/predefined_variables.md)
 
+  1. Tipps & Tricks 
+     * [kubectl-Autovervollständigung](autocomplete.md) 
+
   1. Examples 
      * [Kuard pod](examples/01-kuard-pod.md)
+     * [Pod nginx port exposed](examples/02-pod-nginx-exposed.md)
+     * [Deployment nginx](examples/03-deployment-nginx.md)
      * [Ingress Nginx](examples/04-ingress-nginx.md) 
+     * [Combind example in manifest (ubuntu-nginx)](05-combined-ubuntu-nginx.md)
+     * [Combined example in manifest (ubuntu-nginx-service)](06-combined-ubuntu-nginx-with-service.md)
 
 
 
