@@ -48,7 +48,6 @@ Ref: https://ubuntu.com/blog/introduction-to-microk8s-part-1-2
 ### Advantages
 
   * Easy to setup HA-Cluster (multi-node control plane)
-  * Easy to create HA-Cluster 
   * Easy to manage 
 
 ## minikube 
