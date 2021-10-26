@@ -19,7 +19,7 @@ kind: Pod
 metadata:
   name: nginx-static-web
   labels:
-    role: myrole
+    webserver: nginx
 spec:
   containers:
   - name: web
@@ -40,5 +40,5 @@ kubectl get pod/nginx-static-web -o yml
 
 ## Adding a service 
 
-w
+
 
