@@ -28,6 +28,7 @@
 
   1. Examples 
      * [Kuard pod](examples/01-kuard-pod.md)
+     * [Pod nginx port exposed](examples/02-pod-nginx-exposed.md)
      * [Ingress Nginx](examples/04-ingress-nginx.md) 
 
 
