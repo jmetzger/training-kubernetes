@@ -30,6 +30,9 @@
 
   1. Ingress 
      * [Nginx Ingress Controller](ingress/nginx-ingress-controller.md) 
+
+  1. Monitoring 
+     * [Prometheus Operator](https://prometheus.io/docs/introduction/overview/)
   
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](autocomplete.md) 
