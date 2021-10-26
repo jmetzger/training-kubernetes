@@ -13,12 +13,14 @@
      * [Patch to next major release - cluster](#patch-to-next-major-release---cluster)
      * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](#remote-verbindung-zu-kubernetes-microk8s-einrichten)
      * [Create a cluster with microk8s](#create-a-cluster-with-microk8s)
+     * [Arbeiten mit der Registry](#arbeiten-mit-der-registry)
   1. kubectl
      * [alle Ressourcen (Möglichkeiten) der Api anzeigen](#alle-ressourcen-möglichkeiten-der-api-anzeigen)
      * [pod starten mit beispiel](#pod-starten-mit-beispiel)
      * [alle pods anzeigen](#alle-pods-anzeigen)
      * [auf welcher Node läuft ein pod](#auf-welcher-node-läuft-ein-pod)
      * [pods löschen](#pods-löschen)
+     * [Mit pod verbinden - terminal](#mit-pod-verbinden---terminal)
 
   1. Kubernetes 
      * [Deployments](#deployments)
@@ -26,9 +28,16 @@
   1. Gitlab CI/CD 
      * [Predefined Variables](#predefined-variables)
 
+  1. Tipps & Tricks 
+     * [kubectl-Autovervollständigung](#kubectl-autovervollständigung)
+
   1. Examples 
      * [Kuard pod](#kuard-pod)
+     * [Pod nginx port exposed](#pod-nginx-port-exposed)
+     * [Deployment nginx](#deployment-nginx)
      * [Ingress Nginx](#ingress-nginx)
+     * [Combind example in manifest (ubuntu-nginx)](#combind-example-in-manifest-ubuntu-nginx)
+     * [Combined example in manifest (ubuntu-nginx-service)](#combined-example-in-manifest-ubuntu-nginx-service)
 
 
 
@@ -58,7 +67,13 @@ So there are other tools/distri around helping you with that.
     (variety of shapes and forms (e.g. single-node, multi-node, HA, self-hosted))
   * Most manual way to create and manage a cluster 
 
+#### Disadvantages 
+
+  * Plugins sind oftmals etwas schwierige zu aktivieren
+
 ### microk8s 
+
+#### General
 
   * Created by Canonical (Ubuntu)
   * Runs on Linux
@@ -66,20 +81,59 @@ So there are other tools/distri around helping you with that.
   * In the meantime it is also available for Windows/Mac
   * HA-Cluster 
 
-#### Advantage 
+#### Production-Ready ? 
 
-  * Easy to create HA-Cluster 
+  * Short answer: YES 
+
+```
+Quote canonical (2020):
+
+MicroK8s is a powerful, lightweight, reliable production-ready Kubernetes distribution. It is an enterprise-grade Kubernetes distribution that has a small disk and memory footprint while offering carefully selected add-ons out-the-box, such as Istio, Knative, Grafana, Cilium and more. Whether you are running a production environment or interested in exploring K8s, MicroK8s serves your needs.
+
+Ref: https://ubuntu.com/blog/introduction-to-microk8s-part-1-2
+
+```
+
+#### Advantages
+
+  * Easy to setup HA-Cluster (multi-node control plane)
   * Easy to manage 
 
 ### minikube 
+
+#### Disadvantages
+  
+  * Not usable / intended for production 
+
+#### Advantages 
+
+  * Easy to set up on local systems for testing/development (Laptop, PC) 
+  * Multi-Node cluster is possible 
+  * Runs und Linux/Windows/Mac
+  * Supports plugin (Different name ?)
 
 
 ### k3s
 
 
 
-### kind 
+### kind (Kubernetes-In-Docker)
 
+#### General 
+
+  * Runs in docker container 
+
+
+#### For Production ?
+
+```
+Having a footprint, where kubernetes runs within docker 
+and the applikations run within docker as docker containers
+it is not suitable for production.
+```
+
+
+### Misc
 
 ```
 
@@ -88,12 +142,7 @@ Minikube can run on Windows and MacOS, because it relies on virtualization (e.g.
 
 Minikube is currently limited to a single-node Kubernetes cluster (for details, see this issue). Although, it is on their roadmap.
 
-Microk8s
-Disclaimer: of all the K8s offerings, I know the least about this one
 
-Microk8s is similar to minikube in that it spins up a single-node Kubernetes cluster with its own set of add-ons.
-
-Like minikube, microk8s is limited to a single-node Kubernetes cluster, with the added limitation of only running on Linux and only on Linux where snap is installed.
 
 K3s
 K3s runs on any Linux distribution without any additional external dependencies or tools. It is marketed by Rancher as a lightweight Kubernetes offering suitable for edge environments, IoT devices, CI pipelines, and even ARM devices, like Raspberry Pi's. K3s achieves its lightweight goal by stripping a bunch of features out of the Kubernetes binaries (e.g. legacy, alpha, and cloud-provider-specific features), replacing docker with containerd, and using sqlite3 as the default DB (instead of etcd). As a result, this lightweight Kubernetes only consumes 512 MB of RAM and 200 MB of disk space. K3s has some nice features, like Helm Chart support out-of-the-box.
@@ -318,6 +367,59 @@ microk8s add-node
 
 <div class="page-break"></div>
 
+### Arbeiten mit der Registry
+
+
+```
+microk8s enable registry 
+
+mkdir ~/docker-images/ubuntu/
+cd ~/docker-images/ubuntu 
+vi Dockerfile 
+
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install -y inetutils-ping
+RUN apt-get install -y telnet
+RUN echo 'while true; do sleep 15 ; done' > /bootstrap.sh
+RUN chmod +x /bootstrap.sh
+
+CMD /bootstrap.sh
+
+docker build -t myubuntu . 
+docker images 
+docker tag myubuntu localhost:32000/myubuntu 
+
+## testrun,ob container im Hintergrund laufen kann
+docker run -d localhost:32000/myubuntu 
+docker ps 
+
+## vernichten 
+docker rm -f <id-des-containers>
+
+## manifests erstellen
+vi ubuntu.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-ubuntu
+
+spec:
+  containers:
+  - name: ubuntu-os
+    image: localhost:32000/myubuntu
+
+## apply'en 
+kubectl apply -f ubuntu.yml 
+
+
+
+
+
+```
+
+<div class="page-break"></div>
+
 ## kubectl
 
 ### alle Ressourcen (Möglichkeiten) der Api anzeigen
@@ -397,6 +499,26 @@ kubectl delete -f pod-manifest.yml
 
 <div class="page-break"></div>
 
+### Mit pod verbinden - terminal
+
+
+### Connect to specific pod 
+
+```
+kubectl exec -it ubuntu-deployment-557dfb95d4-jc57t -- bash 
+```
+
+### Connect to 1 random pod in deployment
+
+```
+### This connects to one random pod within deployment 
+
+## ubuntu-deployment was the name of the deployment
+kubectl exec -it deploy/ubuntu-deployment -- bash
+```
+
+<div class="page-break"></div>
+
 ## Kubernetes 
 
 ### Deployments
@@ -422,6 +544,28 @@ kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
 
 
   * https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+
+<div class="page-break"></div>
+
+## Tipps & Tricks 
+
+### kubectl-Autovervollständigung
+
+
+### Walkthrough 
+
+```
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+source ~/.bashrc 
+
+## works like 
+kubectl TAB TAB 
+
+```
+
+### Ref:
+
+  * https://kubernetes.io/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/
 
 <div class="page-break"></div>
 
@@ -452,6 +596,88 @@ spec:
 
 ```
 kubectl apply -f kuard-pod.yml
+```
+
+<div class="page-break"></div>
+
+### Pod nginx port exposed
+
+
+### What is containerPort (from kubectl explain) ?
+
+```
+containerPort        <integer> -required-
+     Number of port to expose on the pod's IP address. This must be a valid port
+     number, 0 < x < 65536.
+     
+```
+
+### Walkthrough 
+
+```
+vi nginx-static-expose.yml 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-static-web
+  labels:
+    webserver: nginx
+spec:
+  containers:
+  - name: web
+    image: nginx
+    ports:
+    - name: web
+      containerPort: 80
+      protocol: TCP
+
+```
+
+```
+kubectl apply -f nginx-static-expose.yml 
+kubectl describe nginx-static-web 
+## show config 
+kubectl get pod/nginx-static-web -o yml 
+```
+
+### Adding a service 
+
+
+
+
+<div class="page-break"></div>
+
+### Deployment nginx
+
+
+```
+
+## vi nginx-deployment.yml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        
+```
+
+```
+kubectl apply -f nginx-deployment.yml 
 ```
 
 <div class="page-break"></div>
@@ -576,3 +802,7 @@ kubectl explain --api-version=networking.k8s.io/v1 ingress.spec.rules.http.paths
 ```
 
 <div class="page-break"></div>
+
+### Combind example in manifest (ubuntu-nginx)
+
+### Combined example in manifest (ubuntu-nginx-service)
