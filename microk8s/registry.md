@@ -18,5 +18,32 @@ CMD /bootstrap.sh
 
 docker build -t myubuntu . 
 docker images 
+docker tag myubuntu localhost:32000/myubuntu 
+
+# testrun,ob container im Hintergrund laufen kann
+docker run -d localhost:32000/myubuntu 
+docker ps 
+
+# vernichten 
+docker rm -f <id-des-containers>
+
+# manifests erstellen
+vi ubuntu.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-ubuntu
+
+spec:
+  containers:
+  - name: ubuntu-os
+    image: localhost:32000/myubuntu
+
+# apply'en 
+kubectl apply -f ubuntu.yml 
+
+
+
+
 
 ```
