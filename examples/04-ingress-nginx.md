@@ -29,7 +29,8 @@ spec:
   selector:
     app: apple
   ports:
-    - port: 5678 # Default port for image
+    - port: 80
+    - targetPort: 5678 # Default port for image
 ```
 
 ```
@@ -62,7 +63,8 @@ spec:
   selector:
     app: banana
   ports:
-    - port: 5678 # Default port for image
+    - port: 80
+      targetPort: 5678 # Default port for image
 ```
 
 ```
@@ -84,11 +86,11 @@ spec:
         - path: /apple
           backend:
             serviceName: apple-service
-            servicePort: 5678
+            servicePort: 80
         - path: /banana
           backend:
             serviceName: banana-service
-            servicePort: 5678
+            servicePort: 80
 ```
 
 ```
