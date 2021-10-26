@@ -38,4 +38,7 @@ kubectl describe nginx-static-web
 kubectl get pod/nginx-static-web -o yml 
 ```
 
+## Adding a service 
+
+w
 
