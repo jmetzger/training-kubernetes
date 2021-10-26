@@ -13,6 +13,7 @@
      * [Patch to next major release - cluster](microk8s/patch-next-major.md)
      * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
      * [Create a cluster with microk8s](microk8s/cluster.md)
+     * [Arbeiten mit der Registry](microk8s/registry.md)
   1. kubectl
      * [alle Ressourcen (Möglichkeiten) der Api anzeigen](kubectl/api-resources.md)
      * [pod starten mit beispiel](kubectl/run-with-example.md)
