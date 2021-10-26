@@ -27,6 +27,7 @@
      * [Predefined Variables](gitlab-ci-cd/predefined_variables.md)
 
   1. Examples 
+     * [Kuard pod](examples/01-kuard-pod.md)
      * [Ingress Nginx](examples/04-ingress-nginx.md) 
 
 
