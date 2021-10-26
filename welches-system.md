@@ -68,7 +68,7 @@ Ref: https://ubuntu.com/blog/introduction-to-microk8s-part-1-2
 
 
 
-## kind 
+## kind (Kubernetes-In-Docker)
 
 ### General 
 
