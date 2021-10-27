@@ -17,13 +17,13 @@ metadata:
    name: destination-home
  spec:
    rules:
-   - host: nginx.redirect
+   - host: redirect.training.local
      http:
        paths:
        - backend:
            serviceName: http-svc
            servicePort: 80
-         path: /source
+         path: /
 ```
 
 ## Documentation 
