@@ -81,6 +81,7 @@ kubectl apply -f nfs.yml
 
 ```
 # deployment including mount 
+# vi deploy.yml 
 kind: Deployment
 metadata:
   name: nginx-deployment
@@ -94,6 +95,12 @@ spec:
       labels:
         app: nginx
     spec:
+    
+      volumes:
+      - name: nfsvol
+        persistentVolumeClaim:
+          claimName: pv-nfs-claim
+    
       containers:
       - name: nginx
         image: nginx:latest
@@ -118,12 +125,10 @@ spec:
 
         volumeMounts:
           - mountPath: "/usr/share/nginx/html"
-     volumes:
-     - name: nfsvol
-       persistentVolumeClaim:
-         claimName: pv-nfs-claim
- 
-
+     
 ```
 
+```
+kubectl apply -f deploy.yml 
 
+```
