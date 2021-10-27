@@ -15,8 +15,7 @@ data:
       protocol: layer2
       addresses:
       - 203.0.113.10-203.0.113.15
-
-
+```
 
 ## Refs:
 
