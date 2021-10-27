@@ -27,15 +27,29 @@
 
   1. Gitlab CI/CD 
      * [Predefined Variables](#predefined-variables)
+     * [Kubernetes pipeline walkthrough](#kubernetes-pipeline-walkthrough)
 
   1. Ingress 
      * [Nginx Ingress Controller](#nginx-ingress-controller)
 
   1. Monitoring 
      * [Prometheus Operator](https://prometheus.io/docs/introduction/overview/)
-  
+
+  1. Logging 
+     * [Logging on Node - Level (fluentd)](https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a)
+
+  1. Netzwerk 
+     * [Ist ipv6 mit ipsec möglich ? (Stand: Experimentell)](#ist-ipv6-mit-ipsec-möglich--stand:-experimentell)
+     * [Metallb als LoadBalancer vor Ingress verwenden](#metallb-als-loadbalancer-vor-ingress-verwenden)
+     * [Calico (Default Netzwerk-Dienst microk8s) - Netzwerk Policies](#calico-default-netzwerk-dienst-microk8s---netzwerk-policies)
+
+  1. Shared Volumes 
+     * [Shared Volumes with Rook & Ceph](#shared-volumes-with-rook-&-ceph)
+     * [Shared Volumes with nfs](#shared-volumes-with-nfs)
+     
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](#kubectl-autovervollständigung)
+     * [Install plugin kubectl-convert](#install-plugin-kubectl-convert)
 
   1. Examples 
      * [Kuard pod](#kuard-pod)
@@ -44,6 +58,11 @@
      * [Ingress Nginx](#ingress-nginx)
      * [Combind example in manifest (ubuntu-nginx)](#combind-example-in-manifest-ubuntu-nginx)
      * [Combined example in manifest (ubuntu-nginx-service)](#combined-example-in-manifest-ubuntu-nginx-service)
+
+  1. Use Cases 
+     * [Use Cases Foundation](https://www.cncf.io/case-studies/)
+     * [Use Cases Kubernetes](https://kubernetes.io/case-studies/)
+     * [Use Cases](https://dzone.com/articles/how-big-companies-are-using-kubernetes)
 
 
 
@@ -553,6 +572,104 @@ kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
 
 <div class="page-break"></div>
 
+### Kubernetes pipeline walkthrough
+
+
+### Walkthrough 
+
+```
+1. Create new repo on gitlab 
+2. CI/CD workflow aktivieren, in dem wir auf das Menü CI/CD klicken 
+-> Get started with GitLab CI/CD -> Use Template 
+
+3. file .gitlab-ci.yml anpassen
+
+variables:
+   KUBECONFIG_SECRET: $KUBECONFIG_SECRET
+
+
+build-version:       # This job runs in the build stage, which runs first.
+  stage: build
+  image: 
+    name: dtzar/helm-kubectl:3.7.1
+
+  script:
+    - echo "Show use our repo"
+    - cd $CI_PROJECT_DIR
+    - ls -la
+    - kubectl version --client
+    - echo "kubeconfig aufsetzen"
+    - mkdir ~/.kube
+    - echo "$KUBECONFIG_SECRET" > ~/.kube/config
+    - ls -la ~/.kube/config
+    - cat ~/.kube/config
+    - kubectl cluster-info 
+    - kubectl get pods
+    - echo "Deploying..."
+    - kubectl apply -f manifests/deploy.yml
+    - sleep 2
+    - echo "And now..."
+    - kubectl get pods 
+
+4. Zugangsdaten auf master-server auslesen und in den Zwischenspeicher kopieren
+
+microk8s config
+
+5. Im Repo und SETTINGS -> CI/CD -> Variables 
+
+variable 
+KUBECONFIG_SECRET 
+mit Inhalt aus 4. setzen
+
+MASKED und PROTECTED Nicht aktivieren 
+
+Speicern
+
+6. im repo folgende Datei anlegen. 
+
+## manifests/deploy.yml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-server-deployment-from-gitlab
+  labels:
+    app: echo-server
+spec:
+  selector: 
+    matchLabels:  
+      app: echo-server 
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: echo-server
+    spec:
+      containers:
+        - name: echo-server
+          image: hashicorp/http-echo
+          imagePullPolicy: IfNotPresent
+          args:
+            - -listen=:8080
+            - -text="hello NEWNEW world"
+
+
+7. in CI/CD - Menü -> Pipelines gucken, ob die Pipeline durchläuft und die detaillierte Ausgabe anzeigen
+
+8. Änderung in deploy.yml durchführen.
+
+z.B. Text: hello NEWNEW world in hello OLDNEW world ändern. 
+
+9. Prüfen ob neuer Pod erstellt wird durch überprüfen der Ausgabe in Pipelines 
+
+```
+
+
+
+
+
+<div class="page-break"></div>
+
 ## Ingress 
 
 ### Nginx Ingress Controller
@@ -563,6 +680,115 @@ kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
 
   * https://medium.com/ww-engineering/kubernetes-nginx-ingress-traffic-redirect-using-annotations-demystified-b7de846fb43d
 
+### Snippet: permanent redirect 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-redirect-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   annotations:
+     nginx.ingress.kubernetes.io/permanent-redirect: https://www.google.de
+     nginx.ingress.kubernetes.io/permanent-redirect-code: '308'
+   name: redirect-google.de
+spec:
+   rules:
+   - host: redirect.training.local
+     http:
+       paths:
+       - backend:
+           service:
+             name: my-redirect-service
+             port:
+               number: 80
+         path: /
+         pathType: Prefix
+
+```
+
+### Use multiple hosts 
+
+```
+## this i yaml magic - yaml - ids 
+spec:
+  rules:
+  - host: foobar.com
+    http: &http_rules
+      paths:
+      - backend:
+          serviceName: foobar
+          servicePort: 80
+  - host: api.foobar.com
+    http: *http_rules
+  - host: admin.foobar.com
+    http: *http_rules
+  - host: status.foobar.com
+    http: *http_rules
+```
+
+### Full example 
+
+```
+## remember to set in your hosts - file or properly in dns 
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-redirect-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   annotations:
+     nginx.ingress.kubernetes.io/permanent-redirect: https://www.google.de
+     nginx.ingress.kubernetes.io/permanent-redirect-code: '308'
+   name: redirect-google.de
+spec:
+   rules:
+   - host: redirect.training.local
+     http: &http_rules
+       paths:
+       - backend:
+           service:
+             name: my-redirect-service
+             port:
+               number: 80
+         path: /
+         pathType: Prefix
+   - host: redirect2.training.local
+     http: *http_rules
+```
+
+
+
+### Ref:
+
+  * https://github.com/kubernetes/kubernetes/issues/43633
+
+
+
+### Documentation 
+
+  * [Github](https://github.com/kubernetes/ingress-nginx)
+  * [Using custom Template](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/custom-template/)
+
+
+
 <div class="page-break"></div>
 
 ## Monitoring 
@@ -570,6 +796,133 @@ kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
 ### Prometheus Operator
 
   * https://prometheus.io/docs/introduction/overview/
+
+## Logging 
+
+### Logging on Node - Level (fluentd)
+
+  * https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a
+
+## Netzwerk 
+
+### Ist ipv6 mit ipsec möglich ? (Stand: Experimentell)
+
+
+### General 
+
+  * Ist möglich, aber noch nicht produktionsreif (Stand 10/2021) 
+  * Jedes Kubernetes-Cluster cluster braucht einen Netzwerk-Dienst 
+  * By microk8s ist dieser Netzwerkdienst calico 
+  * Dieser unterstützt experimentell ipv mit ipsec
+
+### Ref:
+
+  * https://docs.projectcalico.org/getting-started/kubernetes/vpp/ipsec
+  * https://docs.projectcalico.org/getting-started/kubernetes/vpp/getting-started
+
+<div class="page-break"></div>
+
+### Metallb als LoadBalancer vor Ingress verwenden
+
+
+### Example:
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 203.0.113.10-203.0.113.15
+```
+
+### Refs:
+
+  * https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
+  * https://metallb.universe.tf/
+
+<div class="page-break"></div>
+
+### Calico (Default Netzwerk-Dienst microk8s) - Netzwerk Policies
+
+
+### Unterstützt Netzwerk Policys 
+
+  * Ich kann festlegen, welcher Pod mit welchem Pod kommunizieren
+
+### Ref:
+
+  * https://docs.oracle.com/de-de/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm
+
+<div class="page-break"></div>
+
+## Shared Volumes 
+
+### Shared Volumes with Rook & Ceph
+
+
+### General
+
+  * cephfs arbeitet als Objektspeicher (RADOS)
+  * Es wird eine Schnittstelle als Blockspeicher zur Verfügung gestellt
+  * Ceph verwendet intern Monitoring - Server (MONs)
+  * Um ceph in Kubernetes auszurollen sind MON's und OSDs notwendig
+
+### Rook
+
+  * Rook liegt zwischen Ceph und Kubernetes und kümmert sich um dessen Verwaltung praktisch komplett automatisch.
+  * Ein Rook-Cluster mit laufendem CEPH entsteht, wenn
+    * die vorgefertigten Rook-Definitionen aus dessen Git-Repository auf die Kubernetes-Instanz angewendet wird.
+   
+### RADOS
+
+  * RADOS hat mehrere Komponenten 
+  * Die Object Storage Daemons (OSDs) sind die Speichersilos in Ceph
+
+### Please do not/Be careful (as of: 2019/12), not sure, if this is still the case (2021/10)!
+
+  * Bitte nicht über HELM ausrollen, dies ist (Stand: 11/2021) nicht funktional komplett
+
+### Walkthrough 
+
+```
+#### Achtung: Stand 2021/10 walkthrough funktioniert aktuell nicht
+
+## Do this on your client 
+git clone https://github.com/rook/rook.git
+cd rook/cluster/examples/kubernetes/ceph
+kubectl create -f crds.yaml -f common.yaml -f operator.yaml
+
+## Check if pod is running 
+kubectl -n rook-ceph get pod -l app=rook-ceph-operator
+
+## First proceed if pod is running (last action)
+kubectl create -f cluster.yaml
+kubectl -n rook-ceph get pods  
+## Wait till all pods are ready
+
+## Install the toolbox 
+kubectl create -f toolbox.yaml
+
+kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- bash
+```
+
+
+
+### Ref: 
+
+  * https://faun.pub/deploy-rook-ceph-on-kubernetes-3a2252f3732e (best choice for walkthrough)
+  * https://www.linux-magazin.de/ausgaben/2019/12/rook-2/4/
+
+<div class="page-break"></div>
+
+### Shared Volumes with nfs
 
 ## Tipps & Tricks 
 
@@ -590,6 +943,37 @@ kubectl TAB TAB
 ### Ref:
 
   * https://kubernetes.io/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/
+
+<div class="page-break"></div>
+
+### Install plugin kubectl-convert
+
+
+### Why ?
+
+  * It used to be part of kubernetes 
+  * It was deprecated like so because it was not cleanly implemented
+  * Ref: https://github.com/kubernetes/kubectl/issues/725#:~:text=kubectl%20convert%20is%20deprecated,functionality%20is%20removed%20from%20kubectl%20.
+
+### What does it do ?
+
+```
+If converts old version of your manifests
+to the versions that work on your server 
+```
+
+### Walkthrough 
+
+```
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl-convert
+## verify checksum 
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl-convert.sha256"
+echo "$(<kubectl-convert.sha256) kubectl-convert" | sha256sum --check
+## install it to the appropriate place being in $PATH
+sudo install -o root -g root -m 0755 kubectl-convert /usr/local/bin/kubectl-convert
+## Test it
+kubectl-convert --help
+```
 
 <div class="page-break"></div>
 
@@ -862,3 +1246,17 @@ spec:
 ### Combind example in manifest (ubuntu-nginx)
 
 ### Combined example in manifest (ubuntu-nginx-service)
+
+## Use Cases 
+
+### Use Cases Foundation
+
+  * https://www.cncf.io/case-studies/
+
+### Use Cases Kubernetes
+
+  * https://kubernetes.io/case-studies/
+
+### Use Cases
+
+  * https://dzone.com/articles/how-big-companies-are-using-kubernetes
