@@ -25,4 +25,5 @@
 
 ## Ref: 
 
+  * https://faun.pub/deploy-rook-ceph-on-kubernetes-3a2252f3732e (best choice for walkthrough)
   * https://www.linux-magazin.de/ausgaben/2019/12/rook-2/4/
