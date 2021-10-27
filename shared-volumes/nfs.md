@@ -29,4 +29,6 @@ apt install nfs-common
 mkdir /mnt/nfs 
 # 192.168.56.106 is our nfs-server 
 mount -t nfs 192.168.56.106:/var/nfs /mnt/nfs 
+ls -la /mnt/nfs
+umount /mnt/nfs
 ```
