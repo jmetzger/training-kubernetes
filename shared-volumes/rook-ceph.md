@@ -7,16 +7,21 @@
   * Ceph verwendet intern Monitoring - Server (MONs)
   * Um ceph in Kubernetes auszurollen sind MON's und OSDs notwendig
 
-# Rook
+## Rook
 
   * Rook liegt zwischen Ceph und Kubernetes und kümmert sich um dessen Verwaltung praktisch komplett automatisch.
   * Ein Rook-Cluster mit laufendem CEPH entsteht, wenn
     * die vorgefertigten Rook-Definitionen aus dessen Git-Repository auf die Kubernetes-Instanz angewendet wird.
    
-# RADOS
+## RADOS
 
   * RADOS hat mehrere Komponenten 
   * Die Object Storage Daemons (OSDs) sind die Speichersilos in Ceph
+
+## Please do not !
+
+  * Bitte nicht über HELM ausrollen, dies ist (Stand: 11/2021) nicht funktional komplett
+
 
 ## Ref: 
 
