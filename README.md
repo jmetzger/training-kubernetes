@@ -54,5 +54,10 @@
      * [Combind example in manifest (ubuntu-nginx)](05-combined-ubuntu-nginx.md)
      * [Combined example in manifest (ubuntu-nginx-service)](06-combined-ubuntu-nginx-with-service.md)
 
+  1. Use Cases 
+     * [Use Cases Foundation](https://www.cncf.io/case-studies/)
+     * [Use Cases Kubernetes](https://kubernetes.io/case-studies/)
+     * [Use Cases](https://dzone.com/articles/how-big-companies-are-using-kubernetes)
+
 
 
