@@ -1,4 +1,4 @@
-# Setup autodeployment 
+# Setup autodeployment on gitlab
 
 ## Walkthrough 
 
