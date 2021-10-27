@@ -33,6 +33,9 @@
 
   1. Monitoring 
      * [Prometheus Operator](https://prometheus.io/docs/introduction/overview/)
+
+  1. Shared Volumes 
+     * [Shared Volumes with Portworx](shared-volumes/portworx.md)
   
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](autocomplete.md) 
