@@ -34,6 +34,9 @@
   1. Monitoring 
      * [Prometheus Operator](https://prometheus.io/docs/introduction/overview/)
 
+  1. Netzwerk 
+     * [Ist ipv6 mit ipsec möglich ? (Stand: Experimentell)](network/ipv6-ipsec.md)
+
   1. Shared Volumes 
      * [Shared Volumes with Portworx](shared-volumes/portworx.md)
   
