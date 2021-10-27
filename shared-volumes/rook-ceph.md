@@ -2,7 +2,7 @@
 
 ## General
 
-  * cephfs arbeitet als Objectspeicher (RADOS)
+  * cephfs arbeitet als Objektspeicher (RADOS)
   * Es wird eine Schnittstelle als Blockspeicher zur Verfügung gestellt
   * Ceph verwendet intern Monitoring - Server (MONs)
   * Um ceph in Kubernetes auszurollen sind MON's und OSDs notwendig
