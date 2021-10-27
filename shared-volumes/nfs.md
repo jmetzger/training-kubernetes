@@ -32,3 +32,98 @@ mount -t nfs 192.168.56.106:/var/nfs /mnt/nfs
 ls -la /mnt/nfs
 umount /mnt/nfs
 ```
+
+## Setup PersistentVolume and PersistentVolumeClaim in cluster
+
+```
+# vi nfs.yml 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  # any PV name
+  name: pv-nfs
+  labels:
+    volume: nfs-data-volume
+spec:
+  capacity:
+    # storage size
+    storage: 5Gi
+  accessModes:
+    # ReadWriteMany(RW from multi nodes), ReadWriteOnce(RW from a node), ReadOnlyMany(R from multi nodes)
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy:
+    # retain even if pods terminate
+    Retain
+  nfs:
+    # NFS server's definition
+    path: /var/nfs/nginx
+    server: 192.168.56.106
+    readOnly: false
+  storageClassName: ""
+---
+# now we want to claim space
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv-nfs-claim
+spec:
+  storageClassName: ""
+  volumeName: pv-nfs
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+```
+```
+kubectl apply -f nfs.yml
+```
+
+```
+# deployment including mount 
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 4 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - "[ -f /run/nginx.pid ]"
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        volumeMounts:
+          - mountPath: "/usr/share/nginx/html"
+     volumes:
+     - name: nfsvol
+       persistentVolumeClaim:
+         claimName: pv-nfs-claim
+ 
+
+```
+
+
