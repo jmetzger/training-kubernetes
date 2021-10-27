@@ -44,7 +44,8 @@
 
   1. Shared Volumes 
      * [Shared Volumes with Rook & Ceph](shared-volumes/rook-ceph.md)
-  
+     * [Shared Volumes with nfs](share-volumes/nfs.md)
+     
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](autocomplete.md) 
      * [Install plugin kubectl-convert](install-kubectl-convert.md)
