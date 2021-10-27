@@ -40,7 +40,7 @@
      * [Calico (Default Netzwerk-Dienst microk8s) - Netzwerk Policies](network/calico-default-microk8s.md)
 
   1. Shared Volumes 
-     * [Shared Volumes with Portworx](shared-volumes/portworx.md)
+     * [Shared Volumes with Portworx](shared-volumes/rook-ceph.md)
   
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](autocomplete.md) 
