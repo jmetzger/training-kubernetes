@@ -39,6 +39,7 @@
   
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](autocomplete.md) 
+     * [Install plugin kubectl-convert](install-kubectl-convert.md)
 
   1. Examples 
      * [Kuard pod](examples/01-kuard-pod.md)
