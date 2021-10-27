@@ -18,9 +18,32 @@
   * RADOS hat mehrere Komponenten 
   * Die Object Storage Daemons (OSDs) sind die Speichersilos in Ceph
 
-## Please do not !
+## Please do not/Be careful (as of: 2019/12), not sure, if this is still the case (2021/10)!
 
   * Bitte nicht über HELM ausrollen, dies ist (Stand: 11/2021) nicht funktional komplett
+
+## Walkthrough 
+
+```
+# Do this on your client 
+git clone https://github.com/rook/rook.git
+cd rook/cluster/examples/kubernetes/ceph
+kubectl create -f crds.yaml -f common.yaml -f operator.yaml
+
+# Check if pod is running 
+kubectl -n rook-ceph get pod -l app=rook-ceph-operator
+
+# First proceed if pod is running (last action)
+kubectl create -f cluster.yaml
+kubectl -n rook-ceph get pods  
+# Wait till all pods are ready
+
+# Install the toolbox 
+kubectl create -f toolbox.yaml
+
+kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- bash
+```
+
 
 
 ## Ref: 
