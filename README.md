@@ -34,6 +34,9 @@
   1. Monitoring 
      * [Prometheus Operator](https://prometheus.io/docs/introduction/overview/)
 
+  1. Logging 
+     * [Logging on Node - Level (fluentd)](https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a)
+
   1. Netzwerk 
      * [Ist ipv6 mit ipsec möglich ? (Stand: Experimentell)](network/ipv6-ipsec.md)
      * [Metallb als LoadBalancer vor Ingress verwenden](network/metallb.md)
