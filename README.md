@@ -27,7 +27,7 @@
 
   1. Gitlab CI/CD 
      * [Predefined Variables](gitlab-ci-cd/predefined_variables.md)
-     * [Example pipelines](gitlab-ci-cd/)
+     * [Kubernetes pipeline walkthrough](gitlab-ci-cd/kubernetes-deploy.md)
 
   1. Ingress 
      * [Nginx Ingress Controller](ingress/nginx-ingress-controller.md) 
