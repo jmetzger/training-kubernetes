@@ -37,7 +37,7 @@
   1. Netzwerk 
      * [Ist ipv6 mit ipsec möglich ? (Stand: Experimentell)](network/ipv6-ipsec.md)
      * [Metallb als LoadBalancer vor Ingress verwenden](network/metallb.md)
-     * [Calico (Default Netzwerk-Dienst microk8s) - Netzwerk Policies](network/callico-default-microk8)
+     * [Calico (Default Netzwerk-Dienst microk8s) - Netzwerk Policies](network/calico-default-microk8.md)
 
   1. Shared Volumes 
      * [Shared Volumes with Portworx](shared-volumes/portworx.md)
