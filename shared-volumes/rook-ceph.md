@@ -25,6 +25,8 @@
 ## Walkthrough 
 
 ```
+### Achtung: Stand 2021/10 walkthrough funktioniert aktuell nicht
+
 # Do this on your client 
 git clone https://github.com/rook/rook.git
 cd rook/cluster/examples/kubernetes/ceph
