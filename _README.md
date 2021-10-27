@@ -28,6 +28,12 @@
   1. Gitlab CI/CD 
      * [Predefined Variables](#predefined-variables)
 
+  1. Ingress 
+     * [Nginx Ingress Controller](#nginx-ingress-controller)
+
+  1. Monitoring 
+     * [Prometheus Operator](https://prometheus.io/docs/introduction/overview/)
+  
   1. Tipps & Tricks 
      * [kubectl-Autovervollständigung](#kubectl-autovervollständigung)
 
@@ -547,6 +553,24 @@ kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
 
 <div class="page-break"></div>
 
+## Ingress 
+
+### Nginx Ingress Controller
+
+
+
+### Example redirecting/rewriting
+
+  * https://medium.com/ww-engineering/kubernetes-nginx-ingress-traffic-redirect-using-annotations-demystified-b7de846fb43d
+
+<div class="page-break"></div>
+
+## Monitoring 
+
+### Prometheus Operator
+
+  * https://prometheus.io/docs/introduction/overview/
+
 ## Tipps & Tricks 
 
 ### kubectl-Autovervollständigung
@@ -714,7 +738,8 @@ spec:
   selector:
     app: apple
   ports:
-    - port: 5678 # Default port for image
+    - port: 80
+    - targetPort: 5678 # Default port for image
 ```
 
 ```
@@ -747,7 +772,8 @@ spec:
   selector:
     app: banana
   ports:
-    - port: 5678 # Default port for image
+    - port: 80
+      targetPort: 5678 # Default port for image
 ```
 
 ```
@@ -769,11 +795,11 @@ spec:
         - path: /apple
           backend:
             serviceName: apple-service
-            servicePort: 5678
+            servicePort: 80
         - path: /banana
           backend:
             serviceName: banana-service
-            servicePort: 5678
+            servicePort: 80
 ```
 
 ```
@@ -799,6 +825,36 @@ kubectl api-ressources
 kubectl explain --api-version=networking.k8s.io/v1 ingress.spec.rules.http.paths.backend.service
 
 ## now we can adjust our config 
+```
+
+### Solution
+
+```
+## in kubernetes 1.22.2 - ingress.yml needs to be modified like so.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+        - path: /apple
+          pathType: Prefix
+          backend:
+            service:
+              name: apple-service
+              port:
+                number: 80
+        - path: /banana
+          pathType: Prefix
+          backend:
+            service:
+              name: banana-service
+              port:
+                number: 80                
 ```
 
 <div class="page-break"></div>
