@@ -33,10 +33,10 @@ kubectl -n kube-system edit configmap/coredns --save-config
 ```
 mkdir manifests
 cd manifests 
-kubectl -n kube-system get configmap/corendns -o yaml > configmap_coredns.yml 
+kubectl -n kube-system get configmap/coredns -o yaml > configmap_coredns.yml 
 # Änderung vornehmen 
 # am besten Annotations raus und alle Zeitstemple, Versionen raus.
-# Änderungen in DAta/core z.b forward... 
+# Änderungen in Data/core z.b forward... 
 kubectl apply -f configmap_coredns.yml
 ```
 
