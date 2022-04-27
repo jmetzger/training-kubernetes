@@ -56,7 +56,7 @@
      * [Pod nginx port exposed](examples/02-pod-nginx-exposed.md)
      * [Deployment nginx](examples/03-deployment-nginx.md)
      * [Ingress Nginx](examples/04-ingress-nginx.md) 
-     * [Combind example in manifest (ubuntu-nginx)](05-combined-ubuntu-nginx.md)
+     * [Combined example in manifest (ubuntu-nginx)](05-combined-ubuntu-nginx.md)
      * [Combined example in manifest (ubuntu-nginx-service)](06-combined-ubuntu-nginx-with-service.md)
 
   1. Use Cases 
